@@ -1,7 +1,10 @@
 import logoDark from "./logo-dark.svg";
 import logoLight from "./logo-light.svg";
+import * as React from 'react';
 
 export function Welcome() {
+  const [count, setCount] = React.useState(0);
+  const handleButtonClick = () => setCount(count => count+1)
   return (
     <main className="flex items-center justify-center pt-16 pb-4">
       <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
@@ -41,6 +44,10 @@ export function Welcome() {
             </ul>
           </nav>
         </div>
+      </div>
+      <div className="max-w-[300px] w-full space-y-6 px-4">
+        <p>{count}</p>
+        <button onClick={ handleButtonClick}> click me !</button>
       </div>
     </main>
   );
