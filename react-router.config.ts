@@ -6,6 +6,10 @@ export default {
   ssr: true,
   async prerender() {
     return (
-      ['/']
+      ['/ssg/home',
+        '/ssg/first',
+        '/ssg/second',
+        '/ssg/third'
+      ]
   )},
 } satisfies Config;
