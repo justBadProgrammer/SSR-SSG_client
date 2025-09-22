@@ -1,15 +1,38 @@
 import { Link } from "react-router";
 import logoDark from "./logo-dark.svg";
 import logoLight from "./logo-light.svg";
-import * as React from 'react';
+type User =
+{
+  name: string,
+  url: string
+}
 
-export default function Page1() {
-    return (
+// export async function loader() { // SSR mode
+//   console.log('ssr')
+//   const res = await fetch(`https://swapi.dev/api/people`);
+//   const users = (await res.json()).results.slice(0,2);
+//   return users;
+// };
+
+export async function clientLoader() { // SSR mode
+  console.log('ssg')
+  const res = await fetch(`https://swapi.dev/api/people`);
+  const users = (await res.json()).results.slice(0,2);
+  return users;
+};
+
+export default function Page({
+  loaderData,
+}: {
+  loaderData: User[]
+}) {
+
+  return (
     <main className="flex items-center justify-center pt-16 pb-4">
       <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
         <header className="flex flex-col items-center gap-9">
           <div className="w-[500px] max-w-[100vw] p-4">
-          <h1>First page</h1>
+            <h1>Third page</h1>
             <img
               src={logoLight}
               alt="React Router"
@@ -24,34 +47,29 @@ export default function Page1() {
         </header>
         <div className="max-w-[300px] w-full space-y-6 px-4">
           <nav className="rounded-3xl border border-gray-200 p-6 dark:border-gray-700 space-y-4">
-            <p className="leading-6 text-gray-700 dark:text-gray-200 text-center">
-              What&apos;s next?
-            </p>
-            <ul>
-              {resources.map(({ href, text, icon }) => (
-                <li key={href}>
-                  <a
-                    className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
-                    href={href}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {icon}
-                    {text}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          <a href ='/ssg/second'>to second page</a>
-          <br/>
-          <a href ='/ssg/third'>to third page</a>
-          <br/>
-          <a href ='/ssg/home'>to home</a>
-        </div>
+            
+             <ul>
+               {loaderData.map(({ name, url }, index) => (
+                 <li key={index}>
+                   <a
+                     className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
+                     href={url}
+                     target="_blank"
+                     rel="noreferrer"
+                   >
+                     {name}
+                   </a>
+                 </li>
+               ))}
+             </ul>
+          </nav>       
+         <Link to = '/pages/1'>to first page</Link>
+        <br/>
+        <Link to = '/pages/2'>to second page</Link>
+        <br/>
+        <Link to = '/pages/home'>to home</Link>
+        </div>       
       </div>
-      {/* <div className="max-w-[300px] w-full space-y-6 px-4">       
-      </div> */}
     </main>
   );
 }

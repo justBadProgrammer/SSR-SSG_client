@@ -1,36 +1,17 @@
 import { Link } from "react-router";
 import logoDark from "./logo-dark.svg";
 import logoLight from "./logo-light.svg";
+import * as React from 'react';
 
-type User =   
-{
-  "name": string,
-  "email": string
-};
-
-export async function loader() {
-  const res = await fetch(`https://jsonplaceholder.typicode.com/users`);
-  const users = (await res.json() as User[]).slice(0,2);
-  return users;
-}
-
-// HydrateFallback is rendered while the client loader is running
-export function HydrateFallback() {
-  return <div>Loading...</div>;
-}
-
-export default function Page({
-  loaderData,
-}: {
-  loaderData: User[]
-}) {
-
+export default function Page2() {
+  const [count, setCount] = React.useState(0);
+  const handleButtonClick = () => setCount(count => count+1)
   return (
     <main className="flex items-center justify-center pt-16 pb-4">
       <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
         <header className="flex flex-col items-center gap-9">
           <div className="w-[500px] max-w-[100vw] p-4">
-            <h1>Third page</h1>
+            <h1>Second page</h1>
             <img
               src={logoLight}
               alt="React Router"
@@ -45,39 +26,16 @@ export default function Page({
         </header>
         <div className="max-w-[300px] w-full space-y-6 px-4">
           <nav className="rounded-3xl border border-gray-200 p-6 dark:border-gray-700 space-y-4">
-            {/* <p className="leading-6 text-gray-700 dark:text-gray-200 text-center">
-              What&apos;s next?
-            </p> */}
-
-
-             <ul>
-               {loaderData.map(({ name, email }, index) => (
-                 <li key={index}>
-                  <p>{name}</p>
-                   <a
-                     className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
-                     href={email}
-                     target="_blank"
-                     rel="noreferrer"
-                   >
-                     {email}
-                   </a>
-                 </li>
-               ))}
-             </ul>
+            <p>{count}</p>
+            <button onClick={ handleButtonClick}> click me !</button>
           </nav>
-        <a href = '/ssg/first'>to first page</a>
+        <Link to ='/pages/1'>to first page</Link>
         <br/>
-        <a href = '/ssg/second'>to second page</a>
+        <Link to ='/pages/3'>to third page</Link>
         <br/>
-        <a href = '/ssg/home'>to home</a>
-        </div>
-       
+        <Link to ='/pages/home'>to home</Link>
+        </div>       
       </div>
-      {/* <div className="max-w-[300px] w-full space-y-6 px-4">
-        <p>{count}</p>
-        <button onClick={ handleButtonClick}> click me !</button>
-      </div> */}
     </main>
   );
 }
